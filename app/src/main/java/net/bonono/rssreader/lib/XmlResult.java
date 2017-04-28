@@ -11,7 +11,7 @@ public class XmlResult {
     private String mText;
 
     public XmlResult() {
-        mResult = new HashMap<>();
+        this(null);
     }
 
     public XmlResult(String text) {
