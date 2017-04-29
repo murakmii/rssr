@@ -5,20 +5,16 @@ import java.util.HashMap;
 import java.util.List;
 
 public class XmlResult {
-    private static final XmlResult sNull = new XmlResult(null);
+    private static final XmlResult sNull = new XmlResult();
 
     private HashMap<String, List<XmlResult>> mResult;
     private String mText;
 
-    public XmlResult() {
-        this(null);
-    }
-
-    public XmlResult(String text) {
+    public void setText(String text) {
         mText = text;
     }
 
-    public String text() {
+    public String getText() {
         return mText;
     }
 

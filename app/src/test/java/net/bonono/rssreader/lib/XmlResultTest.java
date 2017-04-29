@@ -3,17 +3,21 @@ package net.bonono.rssreader.lib;
 import org.junit.Test;
 
 import static org.junit.Assert.*;
+import static org.hamcrest.CoreMatchers.*;
 
 public class XmlResultTest {
     @Test
     public void initializeTextAsNull() throws Exception {
-        assertNull(new XmlResult().text());
+        assertThat(new XmlResult().getText(), is(nullValue()));
     }
 
     @Test
     public void initializeTextByArgument() throws Exception {
         String expected = "test";
-        assertEquals(expected, new XmlResult(expected).text());
+        XmlResult sut = new XmlResult();
+        sut.setText(expected);
+
+        assertThat(sut.getText(), equalTo(expected));
     }
 
     @Test
@@ -21,7 +25,7 @@ public class XmlResultTest {
         XmlResult sut = new XmlResult(), result = new XmlResult();
         sut.add("test", result);
 
-        assertSame(result, sut.get("test"));
+        assertThat(sut.get("test"), sameInstance(result));
     }
 
     @Test
@@ -30,8 +34,8 @@ public class XmlResultTest {
         sut.add("test1", result1);
         sut.add("test2", result2);
 
-        assertSame(result1, sut.get("test1"));
-        assertSame(result2, sut.get("test2"));
+        assertThat(sut.get("test1"), sameInstance(result1));
+        assertThat(sut.get("test2"), sameInstance(result2));
     }
 
     @Test
@@ -40,8 +44,8 @@ public class XmlResultTest {
         sut.add("test", a1);
         sut.add("test", a2);
 
-        assertSame(a1, sut.getList("test").get(0));
-        assertSame(a2, sut.getList("test").get(1));
+        assertThat(sut.getList("test").get(0), sameInstance(a1));
+        assertThat(sut.getList("test").get(1), sameInstance(a2));
     }
 
     @Test
@@ -49,7 +53,7 @@ public class XmlResultTest {
         XmlResult sut = new XmlResult();
         XmlResult got = sut.get("test1");
 
-        assertNotNull(got);
-        assertSame(got, sut.get("test2"));
+        assertThat(got, notNullValue());
+        assertThat(sut.get("test2"), sameInstance(got));
     }
 }
