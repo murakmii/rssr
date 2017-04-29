@@ -66,4 +66,17 @@ public class XmlDefinitionTest {
         assertThat(result.getList("child").get(0).getText(), equalTo("text1"));
         assertThat(result.getList("child").get(1).getText(), equalTo("text2"));
     }
+
+    @Test
+    public void canParseEmptyTag() throws Exception {
+        XmlDefinition sut = XmlDefinition.forTag("test");
+        sut.nest(XmlDefinition.forText("child"));
+
+        String xml = "<test><child /></test>";
+        InputStream is = new ByteArrayInputStream(xml.getBytes());
+
+        XmlResult result = XmlDefinition.rootOf(sut).parse(is).get("test");
+
+        assertThat(result.has("child"), is(true));
+    }
 }
