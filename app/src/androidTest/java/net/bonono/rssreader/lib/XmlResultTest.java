@@ -1,10 +1,19 @@
 package net.bonono.rssreader.lib;
 
+import android.support.test.runner.AndroidJUnit4;
+import android.util.Xml;
+
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.xmlpull.v1.XmlPullParser;
+
+import java.io.ByteArrayInputStream;
+import java.io.InputStream;
 
 import static org.junit.Assert.*;
 import static org.hamcrest.CoreMatchers.*;
 
+@RunWith(AndroidJUnit4.class)
 public class XmlResultTest {
     @Test
     public void initializeTextAsNull() throws Exception {
@@ -55,5 +64,20 @@ public class XmlResultTest {
 
         assertThat(got, notNullValue());
         assertThat(sut.get("test2"), sameInstance(got));
+    }
+
+    @Test
+    public void collectAttributes() throws Exception {
+        String xml = "<test foo=\"bar\" hoge=\"fuga\" />";
+        InputStream is = new ByteArrayInputStream(xml.getBytes());
+
+        XmlPullParser parser = Xml.newPullParser();
+        parser.setFeature(XmlPullParser.FEATURE_PROCESS_NAMESPACES, false);
+        parser.setInput(is, null);
+        while (parser.getEventType() != XmlPullParser.START_TAG) { parser.next(); }
+
+        XmlResult sut = new XmlResult(parser);
+        assertThat(sut.getAttr("foo"), equalTo("bar"));
+        assertThat(sut.getAttr("hoge"), equalTo("fuga"));
     }
 }

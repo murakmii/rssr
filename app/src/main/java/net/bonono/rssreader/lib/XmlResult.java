@@ -1,5 +1,7 @@
 package net.bonono.rssreader.lib;
 
+import org.xmlpull.v1.XmlPullParser;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -8,7 +10,22 @@ public class XmlResult {
     private static final XmlResult sNull = new XmlResult();
 
     private HashMap<String, List<XmlResult>> mResult;
+    private HashMap<String, String> mAttrs;
     private String mText;
+
+    public XmlResult() {
+        // do nothing
+    }
+
+    public XmlResult(XmlPullParser parser) {
+        int attrCount = parser.getAttributeCount();
+        if (attrCount > 0) {
+            mAttrs = new HashMap<>();
+            for (int i = 0; i < attrCount; i++) {
+                mAttrs.put(parser.getAttributeName(i), parser.getAttributeValue(i));
+            }
+        }
+    }
 
     public void setText(String text) {
         mText = text;
@@ -40,5 +57,9 @@ public class XmlResult {
 
     public boolean has(String tag) {
         return mResult != null && mResult.containsKey(tag);
+    }
+
+    public String getAttr(String name) {
+        return mAttrs == null ? null : mAttrs.get(name);
     }
 }
