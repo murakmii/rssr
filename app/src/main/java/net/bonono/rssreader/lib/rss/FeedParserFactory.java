@@ -28,6 +28,9 @@ public class FeedParserFactory {
                 case "rdf:RDF":
                     fp = new Rss1Parser();
                     break;
+                case "rss":
+                    fp = new Rss2Parser();
+                    break;
             }
         }
 

@@ -1,0 +1,28 @@
+<rss version="2.0"
+    xmlns:dc="http://purl.org/dc/elements/1.1/">
+    <channel>
+        <title>foo</title>
+        <link>http://example.test</link>
+        <description>bar</description>
+
+        <item>
+            <title>new entry</title>
+            <link>http://example.test/new-entry</link>
+            <description>this is new entry</description>
+            <pubDate>Mon, 01 May 2017 12:34:56 +0000</pubDate>
+        </item>
+        <item>
+            <title>old entry</title>
+            <link>http://example.test/old-entry</link>
+            <description>this is old entry</description>
+            <dc:date>2017-04-30T11:00:00+09:00</dc:date>
+        </item>
+        <item>
+            <title>what</title>
+            <link>http://example.test/what</link>
+            <description>what is this</description>
+            <pubDate>Sun, 30 Apr 2017 10:00:00 +0000</pubDate>
+            <dc:date>2017-04-30T09:00:00+09:00</dc:date>
+        </item>
+    </channel>
+</rss>

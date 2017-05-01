@@ -24,4 +24,10 @@ public class FeedParserFactoryTest {
         InputStream is = new ByteArrayInputStream("<rdf:RDF />".getBytes());
         assertThat(FeedParserFactory.newInstanceFor(is), instanceOf(Rss1Parser.class));
     }
+
+    @Test
+    public void createParserForRss2() throws Exception {
+        InputStream is = new ByteArrayInputStream("<rss />".getBytes());
+        assertThat(FeedParserFactory.newInstanceFor(is), instanceOf(Rss2Parser.class));
+    }
 }
