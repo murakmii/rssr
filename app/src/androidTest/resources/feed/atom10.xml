@@ -1,0 +1,21 @@
+<feed xmlns="http://purl.org/atom/ns#">
+    <title>foo</title>
+    <link rel="self" href="http://example.test/atom.xml" />
+    <link rel="alternate" href="http://example.test" />
+    <link rel="hub" href="http://example.test/hub" />
+    <subtitle>bar</subtitle>
+
+    <entry>
+        <title>new entry</title>
+        <link rel="alternate" href="http://example.test/new-entry" />
+        <published>2017-05-02T12:34:56+09:00</published>
+        <summary>this is new entry</summary>
+    </entry>
+
+    <entry>
+        <title>old entry</title>
+        <link rel="alternate" href="http://example.test/old-entry" />
+        <published>2017-05-02T11:00:00+09:00</published>
+        <summary>this is old entry</summary>
+    </entry>
+</feed>

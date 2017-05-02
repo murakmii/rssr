@@ -31,6 +31,9 @@ public class FeedParserFactory {
                 case "rss":
                     fp = new Rss2Parser();
                     break;
+                case "feed":
+                    fp = new AtomParser();
+                    break;
             }
         }
 

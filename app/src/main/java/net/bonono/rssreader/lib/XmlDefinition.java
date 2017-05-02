@@ -55,7 +55,7 @@ public class XmlDefinition {
     }
 
     public XmlResult parse(XmlPullParser parser) throws XmlPullParserException, IOException {
-        XmlResult result = new XmlResult();
+        XmlResult result = new XmlResult(parser);
         int startDepth = parser.getDepth();
 
         while (!doesReachEnd(parser, startDepth)) {
