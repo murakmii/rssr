@@ -11,6 +11,7 @@ import org.threeten.bp.format.DateTimeFormatter;
 import org.threeten.bp.format.DateTimeParseException;
 import org.xmlpull.v1.XmlPullParserException;
 
+import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.List;
@@ -39,34 +40,36 @@ public class AtomParser implements FeedParser {
     }
 
     @Override
-    public Feed parse(InputStream is) throws XmlPullParserException, IOException {
-        XmlResult fd = mDef.parse(is).get("feed");
-
+    public Feed parse(String xml) throws XmlPullParserException, IOException {
         Feed feed = new Feed();
 
-        feed.setTitle(fd.get("title").getText());
-        feed.setDescription(fd.get("tagline").getText());
-        if (TextUtils.isEmpty(feed.getDescription())) {
-            feed.setDescription(fd.get("subtitle").getText());
-        }
+        try (ByteArrayInputStream ba = new ByteArrayInputStream(xml.getBytes())) {
+            XmlResult fd = mDef.parse(ba).get("feed");
 
-        feed.setUrl(selectLink(fd.getList("link")));
-
-        for (XmlResult e : fd.getList("entry")) {
-            Entry entry = new Entry();
-
-            entry.setTitle(e.get("title").getText());
-            entry.setUrl(selectLink(e.getList("link")));
-            entry.setDescription(e.get("summary").getText());
-
-            entry.setCreatedAt(parseDate(e.get("issued").getText()));
-            if (entry.getCreatedAt() == null) {
-                entry.setCreatedAt(parseDate(e.get("published").getText()));
+            feed.setTitle(fd.get("title").getText());
+            feed.setDescription(fd.get("tagline").getText());
+            if (TextUtils.isEmpty(feed.getDescription())) {
+                feed.setDescription(fd.get("subtitle").getText());
             }
 
-            // TODO: set updatedAt
+            feed.setUrl(selectLink(fd.getList("link")));
 
-            feed.addEntry(entry);
+            for (XmlResult e : fd.getList("entry")) {
+                Entry entry = new Entry();
+
+                entry.setTitle(e.get("title").getText());
+                entry.setUrl(selectLink(e.getList("link")));
+                entry.setDescription(e.get("summary").getText());
+
+                entry.setCreatedAt(parseDate(e.get("issued").getText()));
+                if (entry.getCreatedAt() == null) {
+                    entry.setCreatedAt(parseDate(e.get("published").getText()));
+                }
+
+                // TODO: set updatedAt
+
+                feed.addEntry(entry);
+            }
         }
 
         return feed;

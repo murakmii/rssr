@@ -6,6 +6,10 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.threeten.bp.LocalDateTime;
 
+import java.io.InputStream;
+
+import okio.Okio;
+
 import static org.junit.Assert.*;
 import static org.hamcrest.CoreMatchers.*;
 
@@ -14,7 +18,8 @@ public class AtomParserTest {
     @Test
     public void canParseSourceAtom03() throws Exception {
         AtomParser sut = new AtomParser();
-        Feed actual = sut.parse(getClass().getClassLoader().getResourceAsStream("feed/atom03.xml"));
+        InputStream is = getClass().getClassLoader().getResourceAsStream("feed/atom03.xml");
+        Feed actual = sut.parse(Okio.buffer(Okio.source(is)).readUtf8());
 
         assertThat(actual.getTitle(), equalTo("foo"));
         assertThat(actual.getUrl(), equalTo("http://example.test"));
@@ -36,7 +41,8 @@ public class AtomParserTest {
     @Test
     public void canParseSourceAtom10() throws Exception {
         AtomParser sut = new AtomParser();
-        Feed actual = sut.parse(getClass().getClassLoader().getResourceAsStream("feed/atom10.xml"));
+        InputStream is = getClass().getClassLoader().getResourceAsStream("feed/atom10.xml");
+        Feed actual = sut.parse(Okio.buffer(Okio.source(is)).readUtf8());
 
         assertThat(actual.getTitle(), equalTo("foo"));
         assertThat(actual.getUrl(), equalTo("http://example.test"));

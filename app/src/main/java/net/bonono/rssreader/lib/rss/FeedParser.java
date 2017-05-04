@@ -9,5 +9,5 @@ import java.io.InputStream;
  * Feed parser should implements this interface.
  */
 public interface FeedParser {
-    Feed parse(InputStream is) throws XmlPullParserException, IOException;
+    Feed parse(String xml) throws XmlPullParserException, IOException;
 }

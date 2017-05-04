@@ -11,6 +11,7 @@ import org.threeten.bp.format.DateTimeFormatter;
 import org.threeten.bp.format.DateTimeParseException;
 import org.xmlpull.v1.XmlPullParserException;
 
+import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 
@@ -36,32 +37,35 @@ public class Rss1Parser implements FeedParser {
         mDef = XmlDefinition.rootOf(rdf);
     }
 
-    public Feed parse(InputStream is) throws XmlPullParserException, IOException {
-        XmlResult rss1 = mDef.parse(is).get("rdf:RDF");
-
+    @Override
+    public Feed parse(String xml) throws XmlPullParserException, IOException {
         Feed feed = new Feed();
 
-        XmlResult ch = rss1.get("channel");
-        feed.setTitle(ch.get("title").getText());
-        feed.setUrl(ch.get("link").getText());
-        feed.setDescription(ch.get("description").getText());
+        try (ByteArrayInputStream ba = new ByteArrayInputStream(xml.getBytes())) {
+            XmlResult rss1 = mDef.parse(ba).get("rdf:RDF");
 
-        for (XmlResult item : rss1.getList("item")) {
-            Entry entry = new Entry();
-            entry.setTitle(item.get("title").getText());
-            entry.setUrl(item.get("link").getText());
-            entry.setDescription(item.get("description").getText());
+            XmlResult ch = rss1.get("channel");
+            feed.setTitle(ch.get("title").getText());
+            feed.setUrl(ch.get("link").getText());
+            feed.setDescription(ch.get("description").getText());
 
-            String dateTime = item.get("dc:date").getText();
-            if (!TextUtils.isEmpty(dateTime)) {
-                try {
-                    entry.setCreatedAt(LocalDateTime.parse(dateTime, DateTimeFormatter.ISO_OFFSET_DATE_TIME));
-                } catch (DateTimeParseException e) {
-                    // ignore failing to parse
+            for (XmlResult item : rss1.getList("item")) {
+                Entry entry = new Entry();
+                entry.setTitle(item.get("title").getText());
+                entry.setUrl(item.get("link").getText());
+                entry.setDescription(item.get("description").getText());
+
+                String dateTime = item.get("dc:date").getText();
+                if (!TextUtils.isEmpty(dateTime)) {
+                    try {
+                        entry.setCreatedAt(LocalDateTime.parse(dateTime, DateTimeFormatter.ISO_OFFSET_DATE_TIME));
+                    } catch (DateTimeParseException e) {
+                        // ignore failing to parse
+                    }
                 }
-            }
 
-            feed.addEntry(entry);
+                feed.addEntry(entry);
+            }
         }
 
         return feed;

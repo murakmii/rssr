@@ -11,6 +11,7 @@ import org.threeten.bp.format.DateTimeFormatter;
 import org.threeten.bp.format.DateTimeParseException;
 import org.xmlpull.v1.XmlPullParserException;
 
+import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 
@@ -37,39 +38,42 @@ public class Rss2Parser implements FeedParser {
         mDef = XmlDefinition.rootOf(rss);
     }
 
-    public Feed parse(InputStream is) throws XmlPullParserException, IOException {
-        XmlResult ch = mDef.parse(is).get("rss").get("channel");
-
+    @Override
+    public Feed parse(String xml) throws XmlPullParserException, IOException {
         Feed feed = new Feed();
 
-        feed.setTitle(ch.get("title").getText());
-        feed.setUrl(ch.get("link").getText());
-        feed.setDescription(ch.get("description").getText());
+        try (ByteArrayInputStream ba = new ByteArrayInputStream(xml.getBytes())) {
+            XmlResult ch = mDef.parse(ba).get("rss").get("channel");
 
-        for (XmlResult item : ch.getList("item")) {
-            Entry entry = new Entry();
-            entry.setTitle(item.get("title").getText());
-            entry.setUrl(item.get("link").getText());
-            entry.setDescription(item.get("description").getText());
+            feed.setTitle(ch.get("title").getText());
+            feed.setUrl(ch.get("link").getText());
+            feed.setDescription(ch.get("description").getText());
 
-            String pubDate = item.get("pubDate").getText(), dcDate = item.get("dc:date").getText();
-            if (!TextUtils.isEmpty(pubDate)) {
-                try {
-                    entry.setCreatedAt(LocalDateTime.parse(pubDate, DateTimeFormatter.RFC_1123_DATE_TIME));
-                } catch (DateTimeParseException e) {
-                    // ignore failing to parse
-                }
-            } else if (!TextUtils.isEmpty(dcDate)) { // try to parse dc:date if pubDate isn't found
-                if (!TextUtils.isEmpty(dcDate)) {
+            for (XmlResult item : ch.getList("item")) {
+                Entry entry = new Entry();
+                entry.setTitle(item.get("title").getText());
+                entry.setUrl(item.get("link").getText());
+                entry.setDescription(item.get("description").getText());
+
+                String pubDate = item.get("pubDate").getText(), dcDate = item.get("dc:date").getText();
+                if (!TextUtils.isEmpty(pubDate)) {
                     try {
-                        entry.setCreatedAt(LocalDateTime.parse(dcDate, DateTimeFormatter.ISO_OFFSET_DATE_TIME));
+                        entry.setCreatedAt(LocalDateTime.parse(pubDate, DateTimeFormatter.RFC_1123_DATE_TIME));
                     } catch (DateTimeParseException e) {
                         // ignore failing to parse
                     }
+                } else if (!TextUtils.isEmpty(dcDate)) { // try to parse dc:date if pubDate isn't found
+                    if (!TextUtils.isEmpty(dcDate)) {
+                        try {
+                            entry.setCreatedAt(LocalDateTime.parse(dcDate, DateTimeFormatter.ISO_OFFSET_DATE_TIME));
+                        } catch (DateTimeParseException e) {
+                            // ignore failing to parse
+                        }
+                    }
                 }
-            }
 
-            feed.addEntry(entry);
+                feed.addEntry(entry);
+            }
         }
 
         return feed;
