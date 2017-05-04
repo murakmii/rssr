@@ -1,5 +1,7 @@
 package net.bonono.rssreader.lib.rss;
 
+import android.text.TextUtils;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -41,5 +43,12 @@ public class Feed {
 
     public void addEntry(Entry entry) {
         mEntries.add(entry);
+    }
+
+    /**
+     * @return whether feed is valid. "valid" means to have enough information.
+     */
+    public boolean isValid() {
+        return !TextUtils.isEmpty(mTitle) && !TextUtils.isEmpty(mUrl);
     }
 }
