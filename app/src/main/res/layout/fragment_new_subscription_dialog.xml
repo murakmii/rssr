@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <data>
+        <import type="android.view.View"/>
+
+        <variable name="loading" type="boolean" />
+        <variable name="feed" type="net.bonono.rssreader.lib.rss.Feed" />
+    </data>
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:padding="8dp" >
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
+            android:text="@string/new_subscription"
+            android:textSize="20sp"
+            android:textStyle="bold" />
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:visibility="@{feed == null ? View.VISIBLE : View.GONE}">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:visibility="@{loading ? View.INVISIBLE : View.VISIBLE}">
+
+                <EditText
+                    android:id="@+id/url"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:inputType="textUri"
+                    android:hint="@string/new_subscription_url_hint" />
+
+                <Button
+                    android:id="@+id/check"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/search" />
+            </LinearLayout>
+
+            <ProgressBar
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:visibility="@{loading ? View.VISIBLE : View.GONE}"/>
+        </FrameLayout>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@{feed != null ? feed.getTitle() : null}"
+            android:visibility="@{feed == null ? View.GONE : View.VISIBLE}" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@{feed != null ? feed.getDescription() : null}"
+            android:visibility="@{feed == null ? View.GONE : View.VISIBLE}" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="end"
+            android:visibility="@{feed == null ? View.GONE : View.VISIBLE}">
+
+            <Button
+                android:id="@+id/re_search"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/re_search" />
+
+            <Button
+                android:id="@+id/add"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/add" />
+        </LinearLayout>
+    </LinearLayout>
+</layout>
