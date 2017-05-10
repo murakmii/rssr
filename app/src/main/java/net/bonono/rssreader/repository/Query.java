@@ -1,12 +1,22 @@
 package net.bonono.rssreader.repository;
 
-import io.realm.Realm;
-import io.realm.RealmObject;
-import io.realm.RealmResults;
+public abstract class Query<T> {
+    private int mOffset = 0;
+    private int mLimit = -1;
 
-public interface Query<T extends RealmObject> {
-    RealmResults<T> toResult(Realm realm);
+    public void offset(int offset) {
+        mOffset = offset;
+    }
 
-    int offset();
-    int limit();
+    public int offset() {
+        return mOffset;
+    }
+
+    public void limit(int limit) {
+        mLimit = limit;
+    }
+
+    public int limit() {
+        return mLimit;
+    }
 }
