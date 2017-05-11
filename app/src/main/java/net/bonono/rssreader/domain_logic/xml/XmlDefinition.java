@@ -1,4 +1,4 @@
-package net.bonono.rssreader.lib;
+package net.bonono.rssreader.domain_logic.xml;
 
 import android.support.annotation.VisibleForTesting;
 import android.util.Xml;

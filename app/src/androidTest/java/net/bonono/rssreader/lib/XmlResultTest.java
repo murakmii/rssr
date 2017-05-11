@@ -3,6 +3,8 @@ package net.bonono.rssreader.lib;
 import android.support.test.runner.AndroidJUnit4;
 import android.util.Xml;
 
+import net.bonono.rssreader.domain_logic.xml.XmlResult;
+
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.xmlpull.v1.XmlPullParser;

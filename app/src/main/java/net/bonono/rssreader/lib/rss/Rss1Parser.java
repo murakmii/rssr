@@ -1,10 +1,9 @@
 package net.bonono.rssreader.lib.rss;
 
-import android.support.annotation.VisibleForTesting;
 import android.text.TextUtils;
 
-import net.bonono.rssreader.lib.XmlDefinition;
-import net.bonono.rssreader.lib.XmlResult;
+import net.bonono.rssreader.domain_logic.xml.XmlDefinition;
+import net.bonono.rssreader.domain_logic.xml.XmlResult;
 
 import org.threeten.bp.LocalDateTime;
 import org.threeten.bp.format.DateTimeFormatter;
@@ -13,7 +12,6 @@ import org.xmlpull.v1.XmlPullParserException;
 
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
-import java.io.InputStream;
 
 public class Rss1Parser implements FeedParser {
     private XmlDefinition mDef;

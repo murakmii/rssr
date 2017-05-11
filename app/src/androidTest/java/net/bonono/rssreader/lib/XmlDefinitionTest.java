@@ -2,6 +2,9 @@ package net.bonono.rssreader.lib;
 
 import android.support.test.runner.AndroidJUnit4;
 
+import net.bonono.rssreader.domain_logic.xml.XmlDefinition;
+import net.bonono.rssreader.domain_logic.xml.XmlResult;
+
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
