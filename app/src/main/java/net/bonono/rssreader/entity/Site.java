@@ -4,7 +4,9 @@ import io.realm.RealmObject;
 import io.realm.annotations.PrimaryKey;
 import io.realm.annotations.Required;
 
-public class Feed extends RealmObject {
+public class Site extends RealmObject {
+    private long id;
+
     @PrimaryKey
     private String url;
 
@@ -35,7 +37,7 @@ public class Feed extends RealmObject {
         return description;
     }
 
-    public int getUnreadCount() {
-        return unreadCount;
+    public void setDescription(String description) {
+        this.description = description;
     }
 }
