@@ -1,5 +1,7 @@
 package net.bonono.rssreader.repository.realm;
 
+import android.support.annotation.Nullable;
+
 import net.bonono.rssreader.entity.Identifiable;
 import net.bonono.rssreader.repository.Query;
 import net.bonono.rssreader.repository.Repository;
@@ -15,21 +17,37 @@ public abstract class RealmRepository<T extends RealmObject> implements Reposito
     private Realm mRealm;
 
     public RealmRepository() {
-        mRealm = Realm.getDefaultInstance();
+        this(null);
+    }
+
+    public RealmRepository(@Nullable RealmRepository<?> transactionRepo) {
+        if (transactionRepo == null) {
+            mRealm = Realm.getDefaultInstance();
+        } else {
+            if (!transactionRepo.mRealm.isInTransaction()) {
+                throw new IllegalArgumentException("Passed repository should be processing in transaction");
+            }
+
+            mRealm = transactionRepo.mRealm;
+        }
     }
 
     @Override
     public void transaction(Runnable inTransaction) {
-        mRealm.executeTransaction(realm -> {
-            Realm tmp = mRealm;
-            mRealm = realm;
-            try {
-                inTransaction.run();
-            } catch (Exception e) {
-                mRealm = tmp;
-                throw e;
-            }
-        });
+        if (mRealm.isInTransaction()) {
+            inTransaction.run();
+        } else {
+            mRealm.executeTransaction(realm -> {
+                Realm tmp = mRealm;
+                mRealm = realm;
+                try {
+                    inTransaction.run();
+                } catch (Exception e) {
+                    mRealm = tmp;
+                    throw e;
+                }
+            });
+        }
     }
 
     @Override

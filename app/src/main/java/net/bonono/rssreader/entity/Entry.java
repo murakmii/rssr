@@ -1,13 +1,18 @@
 package net.bonono.rssreader.entity;
 
+import java.util.Date;
+
 import io.realm.RealmObject;
 import io.realm.annotations.Index;
 import io.realm.annotations.PrimaryKey;
 import io.realm.annotations.Required;
 
-public class Site extends RealmObject implements Identifiable {
+public class Entry extends RealmObject implements Identifiable {
     @PrimaryKey
     private long id;
+
+    @Index
+    private long siteId;
 
     @Required
     @Index
@@ -18,7 +23,9 @@ public class Site extends RealmObject implements Identifiable {
 
     private String description;
 
-    private int unreadCount;
+    private Date createdAt;
+
+    private boolean read;
 
     @Override
     public long getId() {
@@ -28,6 +35,14 @@ public class Site extends RealmObject implements Identifiable {
     @Override
     public void setId(long id) {
         this.id = id;
+    }
+
+    public long getSiteId() {
+        return siteId;
+    }
+
+    public void belongTo(Site site) {
+        siteId = site.getId();
     }
 
     public String getUrl() {
@@ -44,13 +59,5 @@ public class Site extends RealmObject implements Identifiable {
 
     public void setTitle(String title) {
         this.title = title;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
     }
 }
