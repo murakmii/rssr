@@ -1,4 +1,6 @@
-package net.bonono.rssreader.repository;
+package net.bonono.rssreader.repository.realm;
+
+import net.bonono.rssreader.repository.Query;
 
 import io.realm.Realm;
 import io.realm.RealmObject;

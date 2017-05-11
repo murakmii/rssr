@@ -4,7 +4,7 @@ import io.realm.RealmObject;
 import io.realm.annotations.PrimaryKey;
 import io.realm.annotations.Required;
 
-public class Site extends RealmObject {
+public class Site extends RealmObject implements Identifiable {
     private long id;
 
     @PrimaryKey
@@ -16,6 +16,16 @@ public class Site extends RealmObject {
     private String description;
 
     private int unreadCount;
+
+    @Override
+    public long getId() {
+        return id;
+    }
+
+    @Override
+    public void setId(long id) {
+        this.id = id;
+    }
 
     public String getUrl() {
         return url;
