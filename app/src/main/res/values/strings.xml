@@ -8,4 +8,6 @@
     <string name="new_subscription">New Subscription</string>
     <string name="new_subscription_url_hint">e.g. : http://example.com/</string>
     <string name="failed_to_search">Failed to search</string>
+    <string name="duplicated_feed">Same feed was already subscribed</string>
+    <string name="subscribe">Subscribed!</string>
 </resources>

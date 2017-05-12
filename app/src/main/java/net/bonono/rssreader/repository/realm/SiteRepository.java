@@ -12,6 +12,13 @@ public class SiteRepository extends RealmRepository<Site> {
         return Site.class;
     }
 
+    public static class All extends RealmQuery<Site> {
+        @Override
+        public RealmResults<Site> toResult(Realm realm) {
+            return realm.where(Site.class).findAllSorted("id");
+        }
+    }
+
     public static class SameUrl extends RealmQuery<Site> {
         private String mUrl;
 
