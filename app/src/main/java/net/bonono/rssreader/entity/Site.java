@@ -80,6 +80,14 @@ public class Site extends RealmObject implements Identifiable {
         return feedUrl;
     }
 
+    public int getUnreadCount() {
+        return unreadCount;
+    }
+
+    public void setUnreadCount(int unreadCount) {
+        this.unreadCount = unreadCount;
+    }
+
     public void collectUrlFromHtml(Document doc) {
         for (Element link : doc.select("link[rel='shortcut icon']")) {
             iconUrl = link.attr("abs:href");

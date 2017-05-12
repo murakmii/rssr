@@ -63,6 +63,7 @@ public class Feed {
                     buffer.getSite().setTitle(feed.getSite().getTitle());
                     buffer.getSite().setDescription(feed.getSite().getDescription());
                     buffer.mEntries = feed.mEntries;
+                    buffer.getSite().setUnreadCount(buffer.mEntries.size());
 
                     if (dig && !TextUtils.isEmpty(feed.getSite().getUrl())) {
                         searchInternal(feed.getSite().getUrl(), buffer, false);

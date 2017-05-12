@@ -88,4 +88,15 @@ public class NewSubscriptionDialogFragment extends RxDialogFragment implements N
     public void failedToSearch() {
         Toast.makeText(getContext(), R.string.failed_to_search, Toast.LENGTH_LONG).show();
     }
+
+    @Override
+    public void duplicated() {
+        Toast.makeText(getContext(), R.string.duplicated_feed, Toast.LENGTH_LONG).show();
+    }
+
+    @Override
+    public void completeToSubscribe() {
+        dismiss();
+        Toast.makeText(getContext(), R.string.subscribe, Toast.LENGTH_LONG).show();
+    }
 }

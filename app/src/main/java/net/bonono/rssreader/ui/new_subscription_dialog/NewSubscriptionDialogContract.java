@@ -11,6 +11,8 @@ public interface NewSubscriptionDialogContract {
 
         void completeToSearch(Feed feed);
         void failedToSearch();
+        void duplicated();
+        void completeToSubscribe();
     }
 
     interface Presenter {
