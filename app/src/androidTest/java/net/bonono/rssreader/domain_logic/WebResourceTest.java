@@ -1,4 +1,4 @@
-package net.bonono.rssreader.lib;
+package net.bonono.rssreader.domain_logic;
 
 import android.support.test.runner.AndroidJUnit4;
 
@@ -64,7 +64,7 @@ public class WebResourceTest {
 
         assertThat(sut.getImageUrl(), equalTo(server.url("/favicon.ico").toString()));
         assertThat(sut.getFeeds().size(), is(1));
-        assertThat(sut.getFeeds().get(0).getTitle(), equalTo("foo"));
+        assertThat(sut.getFeeds().get(0).getSite().getTitle(), equalTo("foo"));
         assertThat(server.takeRequest().getPath(), equalTo("/"));
         assertThat(server.takeRequest().getPath(), equalTo("/atom.xml"));
     }
@@ -81,7 +81,7 @@ public class WebResourceTest {
         sut.collectDataFromXml(HttpUtil.get(server.url("/").toString()), false);
 
         assertThat(sut.getFeeds().size(), is(1));
-        assertThat(sut.getFeeds().get(0).getTitle(), equalTo("foo"));
+        assertThat(sut.getFeeds().get(0).getSite().getTitle(), equalTo("foo"));
         assertThat(sut.getImageUrl(), is(nullValue()));
     }
 }

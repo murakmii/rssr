@@ -1,12 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout
-    xmlns:android="http://schemas.android.com/apk/res/android">
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
 
     <data>
         <import type="android.view.View"/>
 
         <variable name="loading" type="boolean" />
-        <variable name="feed" type="net.bonono.rssreader.lib.rss.Feed" />
+        <variable name="feed" type="net.bonono.rssreader.domain_logic.rss.Feed" />
     </data>
 
     <LinearLayout
@@ -58,13 +57,13 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@{feed != null ? feed.getTitle() : null}"
+            android:text="@{feed != null ? feed.getSite().getTitle() : null}"
             android:visibility="@{feed == null ? View.GONE : View.VISIBLE}" />
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@{feed != null ? feed.getDescription() : null}"
+            android:text="@{feed != null ? feed.getSite().getDescription() : null}"
             android:visibility="@{feed == null ? View.GONE : View.VISIBLE}" />
 
         <LinearLayout

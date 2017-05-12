@@ -1,10 +1,10 @@
-package net.bonono.rssreader.lib;
+package net.bonono.rssreader.domain_logic;
 
 import android.support.annotation.VisibleForTesting;
 
-import net.bonono.rssreader.lib.rss.Feed;
-import net.bonono.rssreader.lib.rss.FeedParser;
-import net.bonono.rssreader.lib.rss.FeedParserFactory;
+import net.bonono.rssreader.domain_logic.rss.Feed;
+import net.bonono.rssreader.domain_logic.rss.FeedParser;
+import net.bonono.rssreader.domain_logic.rss.FeedParserFactory;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -97,7 +97,7 @@ public class WebResource {
                 }
 
                 if (collectHtml) {
-                    collectDataFromHtml(HttpUtil.get(feed.getUrl()), false);
+                    collectDataFromHtml(HttpUtil.get(feed.getSite().getUrl()), false);
                 }
 
                 mFeedUrls.add(response.requestedUrl());

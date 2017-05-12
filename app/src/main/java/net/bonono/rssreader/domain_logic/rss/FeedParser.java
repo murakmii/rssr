@@ -1,10 +1,8 @@
-package net.bonono.rssreader.lib.rss;
+package net.bonono.rssreader.domain_logic.rss;
 
 import org.xmlpull.v1.XmlPullParserException;
 
 import java.io.IOException;
-import java.io.InputStream;
-
 /**
  * Feed parser should implements this interface.
  */

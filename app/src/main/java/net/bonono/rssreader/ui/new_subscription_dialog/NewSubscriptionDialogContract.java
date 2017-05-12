@@ -1,6 +1,6 @@
 package net.bonono.rssreader.ui.new_subscription_dialog;
 
-import net.bonono.rssreader.lib.WebResource;
+import net.bonono.rssreader.domain_logic.WebResource;
 
 import io.reactivex.Observable;
 

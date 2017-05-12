@@ -1,10 +1,12 @@
-package net.bonono.rssreader.lib.rss;
+package net.bonono.rssreader.domain_logic.rss;
 
 import android.support.annotation.VisibleForTesting;
 import android.text.TextUtils;
 
 import net.bonono.rssreader.domain_logic.xml.XmlDefinition;
 import net.bonono.rssreader.domain_logic.xml.XmlResult;
+import net.bonono.rssreader.entity.Entry;
+import net.bonono.rssreader.entity.Site;
 
 import org.threeten.bp.LocalDateTime;
 import org.threeten.bp.format.DateTimeFormatter;
@@ -45,13 +47,15 @@ public class AtomParser implements FeedParser {
         try (ByteArrayInputStream ba = new ByteArrayInputStream(xml.getBytes())) {
             XmlResult fd = mDef.parse(ba).get("feed");
 
-            feed.setTitle(fd.get("title").getText());
-            feed.setDescription(fd.get("tagline").getText());
-            if (TextUtils.isEmpty(feed.getDescription())) {
-                feed.setDescription(fd.get("subtitle").getText());
+            Site site = new Site();
+            site.setTitle(fd.get("title").getText());
+            site.setDescription(fd.get("tagline").getText());
+            if (TextUtils.isEmpty(site.getDescription())) {
+                site.setDescription(fd.get("subtitle").getText());
             }
 
-            feed.setUrl(selectLink(fd.getList("link")));
+            site.setUrl(selectLink(fd.getList("link")));
+            feed.setSite(site);
 
             for (XmlResult e : fd.getList("entry")) {
                 Entry entry = new Entry();

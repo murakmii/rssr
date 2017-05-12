@@ -1,4 +1,6 @@
-package net.bonono.rssreader.lib;
+package net.bonono.rssreader.domain_logic;
+
+import net.bonono.rssreader.domain_logic.HttpUtil;
 
 import org.junit.After;
 import org.junit.Before;

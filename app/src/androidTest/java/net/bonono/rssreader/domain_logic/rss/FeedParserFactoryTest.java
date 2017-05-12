@@ -1,4 +1,4 @@
-package net.bonono.rssreader.lib.rss;
+package net.bonono.rssreader.domain_logic.rss;
 
 import android.support.test.runner.AndroidJUnit4;
 

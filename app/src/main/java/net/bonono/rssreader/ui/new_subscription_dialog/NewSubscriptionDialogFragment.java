@@ -14,7 +14,7 @@ import com.trello.rxlifecycle2.components.support.RxDialogFragment;
 
 import net.bonono.rssreader.R;
 import net.bonono.rssreader.databinding.FragmentNewSubscriptionDialogBinding;
-import net.bonono.rssreader.lib.WebResource;
+import net.bonono.rssreader.domain_logic.WebResource;
 
 import io.reactivex.Observable;
 import io.reactivex.android.schedulers.AndroidSchedulers;

@@ -1,6 +1,8 @@
-package net.bonono.rssreader.lib.rss;
+package net.bonono.rssreader.domain_logic.rss;
 
 import android.support.test.runner.AndroidJUnit4;
+
+import net.bonono.rssreader.entity.Entry;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -22,9 +24,9 @@ public class Rss1ParserTest {
         InputStream is = getClass().getClassLoader().getResourceAsStream("feed/rss1.xml");
         Feed actual = sut.parse(Okio.buffer(Okio.source(is)).readUtf8());
 
-        assertThat(actual.getTitle(), equalTo("foo"));
-        assertThat(actual.getUrl(), equalTo("http://example.test"));
-        assertThat(actual.getDescription(), equalTo("bar"));
+        assertThat(actual.getSite().getTitle(), equalTo("foo"));
+        assertThat(actual.getSite().getUrl(), equalTo("http://example.test"));
+        assertThat(actual.getSite().getDescription(), equalTo("bar"));
 
         Entry entry = actual.getEntries().get(0);
         assertThat(entry.getTitle(), equalTo("new entry"));

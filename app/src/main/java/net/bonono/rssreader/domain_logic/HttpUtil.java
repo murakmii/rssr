@@ -1,4 +1,4 @@
-package net.bonono.rssreader.lib;
+package net.bonono.rssreader.domain_logic;
 
 import android.support.annotation.Nullable;
 import android.support.compat.BuildConfig;
