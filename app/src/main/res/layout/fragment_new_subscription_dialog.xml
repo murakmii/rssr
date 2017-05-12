@@ -5,7 +5,7 @@
         <import type="android.view.View"/>
 
         <variable name="loading" type="boolean" />
-        <variable name="feed" type="net.bonono.rssreader.domain_logic.rss.Feed" />
+        <variable name="site" type="net.bonono.rssreader.entity.Site" />
     </data>
 
     <LinearLayout
@@ -25,7 +25,7 @@
         <FrameLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:visibility="@{feed == null ? View.VISIBLE : View.GONE}">
+            android:visibility="@{site == null ? View.VISIBLE : View.GONE}">
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -57,20 +57,20 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@{feed != null ? feed.getSite().getTitle() : null}"
-            android:visibility="@{feed == null ? View.GONE : View.VISIBLE}" />
+            android:text="@{site != null ? site.getTitle() : null}"
+            android:visibility="@{site == null ? View.GONE : View.VISIBLE}" />
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@{feed != null ? feed.getSite().getDescription() : null}"
-            android:visibility="@{feed == null ? View.GONE : View.VISIBLE}" />
+            android:text="@{site != null ? site.getDescription() : null}"
+            android:visibility="@{site == null ? View.GONE : View.VISIBLE}" />
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="end"
-            android:visibility="@{feed == null ? View.GONE : View.VISIBLE}">
+            android:visibility="@{site == null ? View.GONE : View.VISIBLE}">
 
             <Button
                 android:id="@+id/re_search"

@@ -1,13 +1,13 @@
 package net.bonono.rssreader.ui.new_subscription_dialog;
 
-import net.bonono.rssreader.domain_logic.WebResource;
+import net.bonono.rssreader.domain_logic.rss.Feed;
 
 import io.reactivex.annotations.NonNull;
 import io.reactivex.observers.DisposableObserver;
 
 public class NewSubscriptionDialogPresenter implements NewSubscriptionDialogContract.Presenter {
     private NewSubscriptionDialogContract.View mView;
-    private WebResource mLastSearched;
+    private Feed mLastSearched;
 
     public NewSubscriptionDialogPresenter(NewSubscriptionDialogContract.View view) {
         mView = view;
@@ -17,12 +17,12 @@ public class NewSubscriptionDialogPresenter implements NewSubscriptionDialogCont
     public void search(String url) {
         mView.showLoading(true);
 
-        mView.bindLifeCycleAndScheduler(WebResource.explore(url))
-                .subscribe(new DisposableObserver<WebResource>() {
+        mView.bindLifeCycleAndScheduler(Feed.search(url))
+                .subscribe(new DisposableObserver<Feed>() {
                     @Override
-                    public void onNext(@NonNull WebResource webResource) {
-                        mLastSearched = webResource;
-                        mView.completeToSearch(webResource);
+                    public void onNext(@NonNull Feed feed) {
+                        mLastSearched = feed;
+                        mView.completeToSearch(feed);
                         mView.showLoading(false);
                     }
 

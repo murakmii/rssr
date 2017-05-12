@@ -14,7 +14,7 @@ import com.trello.rxlifecycle2.components.support.RxDialogFragment;
 
 import net.bonono.rssreader.R;
 import net.bonono.rssreader.databinding.FragmentNewSubscriptionDialogBinding;
-import net.bonono.rssreader.domain_logic.WebResource;
+import net.bonono.rssreader.domain_logic.rss.Feed;
 
 import io.reactivex.Observable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
@@ -44,7 +44,7 @@ public class NewSubscriptionDialogFragment extends RxDialogFragment implements N
         mBinding.check.setOnClickListener(__ -> mPresenter.search(mBinding.url.getText().toString()));
         mBinding.add.setOnClickListener(__ -> mPresenter.addLastSearched());
         mBinding.reSearch.setOnClickListener(__ -> {
-            mBinding.setFeed(null);
+            mBinding.setSite(null);
             mBinding.url.setText(null);
         });
     }
@@ -72,7 +72,7 @@ public class NewSubscriptionDialogFragment extends RxDialogFragment implements N
     }
 
     @Override
-    public Observable<WebResource> bindLifeCycleAndScheduler(Observable<WebResource> observable) {
+    public Observable<Feed> bindLifeCycleAndScheduler(Observable<Feed> observable) {
         return observable
                 .compose(bindToLifecycle())
                 .subscribeOn(Schedulers.io())
@@ -80,8 +80,8 @@ public class NewSubscriptionDialogFragment extends RxDialogFragment implements N
     }
 
     @Override
-    public void completeToSearch(WebResource webRes) {
-        mBinding.setFeed(webRes.getFeeds().get(0));
+    public void completeToSearch(Feed feed) {
+        mBinding.setSite(feed.getSite());
     }
 
     @Override

@@ -1,15 +1,15 @@
 package net.bonono.rssreader.ui.new_subscription_dialog;
 
-import net.bonono.rssreader.domain_logic.WebResource;
+import net.bonono.rssreader.domain_logic.rss.Feed;
 
 import io.reactivex.Observable;
 
 public interface NewSubscriptionDialogContract {
     interface View {
         void showLoading(boolean visible);
-        Observable<WebResource> bindLifeCycleAndScheduler(Observable<WebResource> observable);
+        Observable<Feed> bindLifeCycleAndScheduler(Observable<Feed> observable);
 
-        void completeToSearch(WebResource webRes);
+        void completeToSearch(Feed feed);
         void failedToSearch();
     }
 
