@@ -1,5 +1,13 @@
 package net.bonono.rssreader.entity;
 
+import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
+
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.List;
+
 import io.realm.RealmObject;
 import io.realm.annotations.Index;
 import io.realm.annotations.PrimaryKey;
@@ -17,6 +25,12 @@ public class Site extends RealmObject implements Identifiable {
     private String title;
 
     private String description;
+
+    private String iconUrl;
+
+    private String thumbnailUrl;
+
+    private String feedUrl;
 
     private int unreadCount;
 
@@ -52,5 +66,48 @@ public class Site extends RealmObject implements Identifiable {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public String getIconUrl() {
+        return iconUrl;
+    }
+
+    public String getThumbnailUrl() {
+        return thumbnailUrl;
+    }
+
+    public String getFeedUrl() {
+        return feedUrl;
+    }
+
+    public void collectUrlFromHtml(Document doc) {
+        for (Element link : doc.select("link[rel='shortcut icon']")) {
+            iconUrl = link.attr("abs:href");
+        }
+
+        for (Element ogImage : doc.select("meta[property='og:image']")) {
+            thumbnailUrl = ogImage.attr("content");
+        }
+
+        List<Element> feedUrls = new ArrayList<>();
+        for (Element link : doc.select("link[rel=alternate]")) {
+            if (link.hasAttr("type") && link.attr("type").contains("xml")) {
+                feedUrls.add(link);
+            }
+        }
+
+        Collections.sort(feedUrls, (lhs, rhs) -> {
+            if (lhs.attr("type").contains("atom")) {
+                return -1;
+            } else if (rhs.attr("type").contains("atom")) {
+                return 1;
+            } else {
+                return 0;
+            }
+        });
+
+        if (feedUrls.size() > 0) {
+            feedUrl = feedUrls.get(0).attr("abs:href");
+        }
     }
 }
