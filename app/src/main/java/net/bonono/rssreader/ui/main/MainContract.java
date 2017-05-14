@@ -9,6 +9,7 @@ public interface MainContract {
     interface View {
         void showNoSite();
         void show(Site site, List<Entry> entries);
+        void closeDrawer();
         Presenter getPresenter();
     }
 

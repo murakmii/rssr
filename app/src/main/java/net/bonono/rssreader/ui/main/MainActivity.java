@@ -1,6 +1,7 @@
 package net.bonono.rssreader.ui.main;
 
 import android.content.Context;
+import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -21,11 +22,14 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
     private MainContract.Presenter mPresenter;
     private Toolbar mToolbar;
     private RecyclerView mRecycler;
+    private DrawerLayout mDrawerLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        mDrawerLayout = (DrawerLayout)findViewById(R.id.drawer_root);
 
         mToolbar = (Toolbar)findViewById(R.id.toolbar);
         mRecycler = (RecyclerView)findViewById(R.id.recycler);
@@ -39,11 +43,17 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
     public void show(Site site, List<Entry> entries) {
         mToolbar.setTitle(site.getTitle());
         mRecycler.setAdapter(new EntryAdapter(this, entries));
+        closeDrawer();
     }
 
     @Override
     public void showNoSite() {
 
+    }
+
+    @Override
+    public void closeDrawer() {
+        mDrawerLayout.closeDrawers();
     }
 
     @Override

@@ -52,6 +52,11 @@ public class DrawerFragment extends Fragment implements DrawerContract.View {
 
         header.findViewById(R.id.new_subscription).setOnClickListener(button -> {
             new NewSubscriptionDialogFragment().show(getActivity().getSupportFragmentManager(), "dialog");
+
+            Activity activity = getActivity();
+            if (activity instanceof MainContract.View) {
+                ((MainContract.View)activity).closeDrawer();
+            }
         });
 
         mList.addHeaderView(header);
