@@ -1,5 +1,6 @@
 package net.bonono.rssreader.ui.drawer;
 
+import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -17,6 +18,7 @@ import com.bumptech.glide.Glide;
 
 import net.bonono.rssreader.R;
 import net.bonono.rssreader.entity.Site;
+import net.bonono.rssreader.ui.main.MainContract;
 import net.bonono.rssreader.ui.new_subscription_dialog.NewSubscriptionDialogFragment;
 
 import java.util.List;
@@ -24,6 +26,7 @@ import java.util.List;
 public class DrawerFragment extends Fragment implements DrawerContract.View {
     private DrawerContract.Presenter mPresenter;
     private ListView mList;
+    private SiteAdapter mAdapter;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -39,9 +42,10 @@ public class DrawerFragment extends Fragment implements DrawerContract.View {
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        mAdapter = new SiteAdapter(getActivity(), mPresenter.loadSites());
 
         mList = (ListView)view;
-        mList.setAdapter(new SiteAdapter(getActivity(), mPresenter.loadSites()));
+        mList.setAdapter(mAdapter);
 
         LayoutInflater inflater = LayoutInflater.from(getActivity());
         ViewGroup header = (ViewGroup)inflater.inflate(R.layout.view_header_in_drawer, mList, false);
@@ -52,7 +56,10 @@ public class DrawerFragment extends Fragment implements DrawerContract.View {
 
         mList.addHeaderView(header);
         mList.setOnItemClickListener((parent, item, position, id) -> {
-            Log.i("RSS", "pos: " + (position - 1));
+            Activity activity = getActivity();
+            if (activity instanceof MainContract.View) {
+                ((MainContract.View)activity).getPresenter().loadSite((Site) mAdapter.getItem(position - 1));
+            }
         });
     }
 

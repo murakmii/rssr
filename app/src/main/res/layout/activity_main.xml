@@ -5,21 +5,33 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <FrameLayout
+    <android.support.design.widget.CoordinatorLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
-        
-        <ImageView
-            android:id="@+id/icon"
-            android:layout_width="16dp"
-            android:layout_height="16dp" />
-    </FrameLayout>
+
+        <android.support.design.widget.AppBarLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <android.support.v7.widget.Toolbar
+                android:id="@+id/toolbar"
+                app:layout_scrollFlags="enterAlways|scroll|snap"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+        </android.support.design.widget.AppBarLayout>
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/recycler"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+    </android.support.design.widget.CoordinatorLayout>
 
     <FrameLayout
         android:layout_gravity="start"
         android:layout_width="280dp"
         android:layout_height="match_parent"
-        android:background="#222">
+        android:background="#333">
 
         <fragment
             android:id="@+id/drawer"

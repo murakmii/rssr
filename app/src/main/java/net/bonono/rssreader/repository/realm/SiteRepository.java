@@ -31,4 +31,11 @@ public class SiteRepository extends RealmRepository<Site> {
             return realm.where(Site.class).equalTo("url", mUrl).findAll();
         }
     }
+
+    public static class Unread implements RealmQuery<Site> {
+        @Override
+        public RealmResults<Site> toResult(Realm realm) {
+            return realm.where(Site.class).greaterThan("unreadCount", 0).findAllSorted("id");
+        }
+    }
 }
