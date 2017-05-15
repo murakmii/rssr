@@ -90,4 +90,8 @@ public class Entry extends RealmObject implements Identifiable {
             this.createdAt = new Date(createdAt.toEpochSecond(ZoneOffset.UTC) * 1000);
         }
     }
+
+    public boolean hasRead() {
+        return read;
+    }
 }

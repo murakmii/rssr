@@ -1,9 +1,12 @@
 package net.bonono.rssreader.ui.main;
 
 import android.content.Context;
+import android.graphics.Color;
+import android.graphics.Typeface;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
@@ -33,7 +36,12 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
 
         mToolbar = (Toolbar)findViewById(R.id.toolbar);
         mRecycler = (RecyclerView)findViewById(R.id.recycler);
-        mRecycler.setLayoutManager(new LinearLayoutManager(this));
+
+        LinearLayoutManager llm = new LinearLayoutManager(this);
+        mRecycler.setLayoutManager(llm);
+
+        DividerItemDecoration did = new DividerItemDecoration(mRecycler.getContext(), llm.getOrientation());
+        mRecycler.addItemDecoration(did);
 
         mPresenter = new MainPresenter(this);
         mPresenter.loadDefaultSite();
@@ -62,15 +70,22 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
     }
 
     private class EntryViewHolder extends RecyclerView.ViewHolder {
-        private View mView;
+        private TextView mTitle;
 
         public EntryViewHolder(View view) {
             super(view);
-            mView = view;
+            mTitle = (TextView)view.findViewById(R.id.title);
         }
 
         public void setEntry(Entry entry) {
-            ((TextView)mView.findViewById(R.id.title)).setText(entry.getTitle());
+            mTitle.setText(entry.getTitle());
+            if (entry.hasRead()) {
+                mTitle.setTypeface(null, Typeface.NORMAL);
+                mTitle.setTextColor(Color.GRAY);
+            } else {
+                mTitle.setTypeface(null, Typeface.BOLD);
+                mTitle.setTextColor(Color.BLACK);
+            }
         }
     }
 
