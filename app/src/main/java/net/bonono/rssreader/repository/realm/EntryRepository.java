@@ -14,8 +14,8 @@ public class EntryRepository extends RealmRepository<Entry> {
         super();
     }
 
-    public EntryRepository(@Nullable RealmRepository<?> transactionRepo) {
-        super(transactionRepo);
+    public EntryRepository(@Nullable Realm realm) {
+        super(realm);
     }
 
     @Override

@@ -10,15 +10,20 @@ import net.bonono.rssreader.repository.realm.SiteRepository;
 
 import io.reactivex.annotations.NonNull;
 import io.reactivex.observers.DisposableObserver;
+import io.realm.Realm;
 
 public class NewSubscriptionDialogPresenter implements NewSubscriptionDialogContract.Presenter {
     private NewSubscriptionDialogContract.View mView;
-    private Repository<Site> mRepo;
+    private Repository<Site> mSiteRepo;
+    private Repository<Entry> mEntryRepo;
     private Feed mLastSearched;
 
     public NewSubscriptionDialogPresenter(NewSubscriptionDialogContract.View view) {
         mView = view;
-        mRepo = new SiteRepository();
+
+        Realm realm = Realm.getDefaultInstance();
+        mSiteRepo = new SiteRepository(realm);
+        mEntryRepo = new EntryRepository(realm);
     }
 
     @Override
@@ -47,16 +52,14 @@ public class NewSubscriptionDialogPresenter implements NewSubscriptionDialogCont
 
     @Override
     public void addLastSearched() {
-        if(mRepo.count(new SiteRepository.SameUrl(mLastSearched.getSite().getUrl())) > 0) {
+        if(mSiteRepo.count(new SiteRepository.SameUrl(mLastSearched.getSite().getUrl())) > 0) {
             mView.duplicated();
         } else {
-            mRepo.transaction(() -> {
-                Site saved = mRepo.save(mLastSearched.getSite());
-
-                EntryRepository entryRepo = new EntryRepository((RealmRepository)mRepo);
+            mSiteRepo.transaction(() -> {
+                Site saved = mSiteRepo.save(mLastSearched.getSite());
                 for (Entry e : mLastSearched.getEntries()) {
                     e.belongTo(saved);
-                    entryRepo.save(e);
+                    mEntryRepo.save(e);
                 }
             });
             mView.completeToSubscribe();

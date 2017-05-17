@@ -7,6 +7,14 @@ import io.realm.Realm;
 import io.realm.RealmResults;
 
 public class SiteRepository extends RealmRepository<Site> {
+    public SiteRepository() {
+        super();
+    }
+
+    public SiteRepository(Realm realm) {
+        super(realm);
+    }
+
     @Override
     protected Class<Site> provideClass() {
         return Site.class;

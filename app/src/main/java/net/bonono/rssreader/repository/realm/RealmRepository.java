@@ -20,16 +20,12 @@ public abstract class RealmRepository<T extends RealmObject> implements Reposito
         this(null);
     }
 
-    public RealmRepository(@Nullable RealmRepository<?> transactionRepo) {
-        if (transactionRepo == null) {
-            mRealm = Realm.getDefaultInstance();
-        } else {
-            if (!transactionRepo.mRealm.isInTransaction()) {
-                throw new IllegalArgumentException("Passed repository should be processing in transaction");
-            }
-
-            mRealm = transactionRepo.mRealm;
+    public RealmRepository(@Nullable Realm realm) {
+        if (realm == null) {
+            realm = Realm.getDefaultInstance();
         }
+
+        mRealm = realm;
     }
 
     @Override
