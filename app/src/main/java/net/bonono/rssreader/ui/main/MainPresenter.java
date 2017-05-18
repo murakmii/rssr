@@ -4,6 +4,7 @@ import android.util.Log;
 
 import net.bonono.rssreader.entity.Entry;
 import net.bonono.rssreader.entity.Site;
+import net.bonono.rssreader.repository.Repository;
 import net.bonono.rssreader.repository.realm.EntryRepository;
 import net.bonono.rssreader.repository.realm.SiteRepository;
 
@@ -11,14 +12,16 @@ import java.util.List;
 
 public class MainPresenter implements MainContract.Presenter {
     private MainContract.View mView;
+    private Repository<Entry> mEntryRepo;
 
     public MainPresenter(MainContract.View view) {
         mView = view;
+        mEntryRepo = new EntryRepository();
     }
 
     @Override
     public void loadSite(Site site) {
-        List<Entry> entries = new EntryRepository().get(new EntryRepository.BelongTo(site));
+        List<Entry> entries = mEntryRepo.get(new EntryRepository.BelongTo(site));
         mView.show(site, entries);
     }
 
@@ -37,5 +40,11 @@ public class MainPresenter implements MainContract.Presenter {
                 mView.showNoSite();
             }
         }
+    }
+
+    @Override
+    public void activateEntry(Entry entry) {
+        mEntryRepo.transaction(entry::doneReading);
+        mView.showEntryDetail(entry);
     }
 }

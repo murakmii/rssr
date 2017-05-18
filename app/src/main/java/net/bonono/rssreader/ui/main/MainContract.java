@@ -11,10 +11,12 @@ public interface MainContract {
         void show(Site site, List<Entry> entries);
         void closeDrawer();
         Presenter getPresenter();
+        void showEntryDetail(Entry entry);
     }
 
     interface Presenter {
         void loadSite(Site site);
         void loadDefaultSite();
+        void activateEntry(Entry entry);
     }
 }

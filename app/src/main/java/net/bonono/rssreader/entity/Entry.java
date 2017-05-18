@@ -94,4 +94,8 @@ public class Entry extends RealmObject implements Identifiable {
     public boolean hasRead() {
         return read;
     }
+
+    public void doneReading() {
+        read = true;
+    }
 }
