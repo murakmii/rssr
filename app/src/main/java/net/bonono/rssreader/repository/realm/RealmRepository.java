@@ -3,6 +3,7 @@ package net.bonono.rssreader.repository.realm;
 import android.support.annotation.Nullable;
 
 import net.bonono.rssreader.entity.Identifiable;
+import net.bonono.rssreader.repository.Context;
 import net.bonono.rssreader.repository.Query;
 import net.bonono.rssreader.repository.Repository;
 
@@ -26,6 +27,12 @@ public abstract class RealmRepository<T extends RealmObject> implements Reposito
         }
 
         mRealm = realm;
+    }
+
+    @Override
+    public void bindContext(Context context) {
+        mRealm.close();
+        mRealm = ((RealmContext) context).getRealm();
     }
 
     @Override
