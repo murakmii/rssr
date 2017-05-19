@@ -18,5 +18,6 @@ public interface MainContract {
         void loadSite(Site site);
         void loadDefaultSite();
         void activateEntry(Entry entry);
+        void dispose();
     }
 }

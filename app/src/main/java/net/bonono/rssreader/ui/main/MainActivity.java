@@ -21,6 +21,8 @@ import android.widget.TextView;
 import net.bonono.rssreader.R;
 import net.bonono.rssreader.entity.Entry;
 import net.bonono.rssreader.entity.Site;
+import net.bonono.rssreader.repository.realm.EntryRepository;
+import net.bonono.rssreader.repository.realm.SiteRepository;
 
 import java.util.List;
 
@@ -49,8 +51,14 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
         DividerItemDecoration did = new DividerItemDecoration(mRecycler.getContext(), llm.getOrientation());
         mRecycler.addItemDecoration(did);
 
-        mPresenter = new MainPresenter(this);
+        mPresenter = new MainPresenter(this, new SiteRepository(), new EntryRepository());
         mPresenter.loadDefaultSite();
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        mPresenter.dispose();
     }
 
     @Override
