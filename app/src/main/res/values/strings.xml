@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">RssReader</string>
+    <string name="app_name">rssr</string>
 
     <string name="search">Search</string>
     <string name="re_search">Re-Search</string>

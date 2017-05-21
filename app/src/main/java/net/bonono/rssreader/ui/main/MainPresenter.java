@@ -27,7 +27,7 @@ public class MainPresenter implements MainContract.Presenter {
 
     @Override
     public void loadSite(Site site) {
-        mView.show(site, mEntryRepo.get(new EntryRepository.BelongTo(site)));
+        mView.show(site);
     }
 
     @Override
@@ -44,6 +44,11 @@ public class MainPresenter implements MainContract.Presenter {
                 mView.showNoSite();
             }
         }
+    }
+
+    @Override
+    public List<Entry> getEntries(long siteId, EntryRepository.Filter filter) {
+        return mEntryRepo.get(new EntryRepository.BelongTo(siteId, filter));
     }
 
     @Override

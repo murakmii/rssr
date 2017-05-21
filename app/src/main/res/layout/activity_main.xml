@@ -15,11 +15,11 @@
             android:id="@+id/toolbar"
             android:background="@color/colorPrimary"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            app:titleTextColor="@android:color/white" />
 
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/recycler"
-            app:layout_behavior="@string/appbar_scrolling_view_behavior"
+        <FrameLayout
+            android:id="@+id/entry_list"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="1" />
