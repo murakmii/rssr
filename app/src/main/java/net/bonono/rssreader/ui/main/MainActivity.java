@@ -9,6 +9,7 @@ import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
@@ -105,7 +106,7 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
         mPresenter.activateEntry(entry);
     }
 
-    private static class EntryListPagerAdapter extends FragmentPagerAdapter {
+    private static class EntryListPagerAdapter extends FragmentStatePagerAdapter {
         private Context mContext;
         private Site mSite;
 
