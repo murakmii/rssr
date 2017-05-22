@@ -10,4 +10,7 @@
     <string name="failed_to_search">Failed to search</string>
     <string name="duplicated_feed">Same feed was already subscribed</string>
     <string name="subscribe">Subscribed!</string>
+
+    <string name="tab_all">ALL</string>
+    <string name="tab_unread">UNREAD</string>
 </resources>

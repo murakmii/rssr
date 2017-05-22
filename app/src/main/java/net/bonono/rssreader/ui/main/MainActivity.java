@@ -6,6 +6,11 @@ import android.graphics.Color;
 import android.graphics.Typeface;
 import android.net.Uri;
 import android.support.design.widget.TabLayout;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.view.PagerAdapter;
+import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -34,6 +39,9 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
     private MainContract.Presenter mPresenter;
     private Toolbar mToolbar;
     private DrawerLayout mDrawerLayout;
+    private TabLayout mTab;
+    private ViewPager mPager;
+    private EntryListPagerAdapter mAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,6 +51,10 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
         mPresenter = new MainPresenter(this, new SiteRepository(), new EntryRepository());
         mDrawerLayout = (DrawerLayout)findViewById(R.id.drawer_root);
         mToolbar = (Toolbar)findViewById(R.id.toolbar);
+        mTab = (TabLayout)findViewById(R.id.tab);
+        mPager = (ViewPager)findViewById(R.id.pager);
+
+        mTab.setupWithViewPager(mPager, true);
 
         mPresenter.loadDefaultSite();
     }
@@ -58,10 +70,13 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
         closeDrawer();
 
         mToolbar.setTitle(site.getTitle());
-        getSupportFragmentManager()
-                .beginTransaction()
-                .replace(R.id.entry_list, EntryListFragment.newInstance(site, EntryRepository.Filter.All))
-                .commit();
+
+        if (mAdapter == null) {
+            mAdapter = new EntryListPagerAdapter(this, getSupportFragmentManager(), site);
+            mPager.setAdapter(mAdapter);
+        } else {
+            mAdapter.updateSite(site);
+        }
     }
 
     @Override
@@ -88,5 +103,52 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
     @Override
     public void onClickEntry(Entry entry) {
         mPresenter.activateEntry(entry);
+    }
+
+    private static class EntryListPagerAdapter extends FragmentPagerAdapter {
+        private Context mContext;
+        private Site mSite;
+
+        EntryListPagerAdapter(Context context, FragmentManager manager, Site site) {
+            super(manager);
+            mContext = context;
+            mSite = site;
+        }
+
+        void updateSite(Site site) {
+            mSite = site;
+            notifyDataSetChanged();
+        }
+
+        @Override
+        public int getCount() {
+            return 2;
+        }
+
+        @Override
+        public Fragment getItem(int position) {
+            EntryRepository.Filter filter;
+            if (position == 0) {
+                filter = EntryRepository.Filter.Unread;
+            } else {
+                filter = EntryRepository.Filter.All;
+            }
+
+            return EntryListFragment.newInstance(mSite, filter);
+        }
+
+        @Override
+        public CharSequence getPageTitle(int position) {
+            if (position == 0) {
+                return mContext.getString(R.string.tab_unread);
+            } else {
+                return mContext.getString(R.string.tab_all);
+            }
+        }
+
+        @Override
+        public int getItemPosition(Object object) {
+            return PagerAdapter.POSITION_NONE;
+        }
     }
 }
