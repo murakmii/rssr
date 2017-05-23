@@ -79,11 +79,12 @@ public class EntryListFragment extends Fragment {
 
     private static class EntryViewHolder extends RecyclerView.ViewHolder {
         private Entry mEntry;
-        private TextView mTitle;
+        private TextView mTitle, mDate;
 
-        public EntryViewHolder(MainContract.View parent, View view) {
+        EntryViewHolder(MainContract.View parent, View view) {
             super(view);
             mTitle = (TextView)view.findViewById(R.id.title);
+            mDate = (TextView)view.findViewById(R.id.date);
 
             view.setOnClickListener(__ -> parent.onClickEntry(mEntry));
         }
@@ -108,6 +109,8 @@ public class EntryListFragment extends Fragment {
                 mTitle.setTypeface(null, Typeface.BOLD);
                 mTitle.setTextColor(Color.BLACK);
             }
+
+            mDate.setText(mEntry.getCreatedAt().toString());
         }
     }
 
@@ -116,7 +119,7 @@ public class EntryListFragment extends Fragment {
         private MainContract.View mParent;
         private List<Entry> mEntries;
 
-        public EntryAdapter(Context context, MainContract.View parent, List<Entry> entries) {
+        EntryAdapter(Context context, MainContract.View parent, List<Entry> entries) {
             mInflater = LayoutInflater.from(context);
             mParent = parent;
             mEntries = entries;
