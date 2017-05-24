@@ -107,6 +107,12 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
     }
 
     private static class EntryListPagerAdapter extends FragmentStatePagerAdapter {
+        private static final int[] sPageTitles = new int[] {
+                R.string.tab_unread,
+                R.string.tab_bookmark,
+                R.string.tab_all
+        };
+
         private Context mContext;
         private Site mSite;
 
@@ -123,28 +129,17 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
 
         @Override
         public int getCount() {
-            return 2;
+            return EntryRepository.Filter.values().length;
         }
 
         @Override
         public Fragment getItem(int position) {
-            EntryRepository.Filter filter;
-            if (position == 0) {
-                filter = EntryRepository.Filter.Unread;
-            } else {
-                filter = EntryRepository.Filter.All;
-            }
-
-            return EntryListFragment.newInstance(mSite, filter);
+            return EntryListFragment.newInstance(mSite, EntryRepository.Filter.values()[position]);
         }
 
         @Override
         public CharSequence getPageTitle(int position) {
-            if (position == 0) {
-                return mContext.getString(R.string.tab_unread);
-            } else {
-                return mContext.getString(R.string.tab_all);
-            }
+            return mContext.getString(sPageTitles[position]);
         }
 
         @Override

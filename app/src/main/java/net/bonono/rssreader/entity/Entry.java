@@ -33,6 +33,8 @@ public class Entry extends RealmObject implements Identifiable {
 
     private boolean read;
 
+    private boolean bookmark;
+
     @Override
     public long getId() {
         return id;
