@@ -5,11 +5,13 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.net.Uri;
+import android.support.customtabs.CustomTabsIntent;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.app.FragmentStatePagerAdapter;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
@@ -88,7 +90,12 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
     @Override
     public void showEntryDetail(Entry entry) {
         // dummy
-        startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(entry.getUrl())));
+
+        CustomTabsIntent.Builder chromeIntent = new CustomTabsIntent.Builder();
+        chromeIntent
+                .setToolbarColor(ContextCompat.getColor(this, R.color.colorPrimary))
+                .build()
+                .launchUrl(this, Uri.parse(entry.getUrl()));
     }
 
     @Override
