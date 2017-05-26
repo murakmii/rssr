@@ -3,8 +3,6 @@ package net.bonono.rssreader.domain_logic;
 import android.support.annotation.Nullable;
 import android.support.compat.BuildConfig;
 
-import com.facebook.stetho.okhttp3.StethoInterceptor;
-
 import java.io.IOException;
 import java.util.concurrent.TimeUnit;
 
@@ -25,7 +23,6 @@ public class HttpUtil {
                 .connectTimeout(5, TimeUnit.SECONDS)
                 .writeTimeout(5, TimeUnit.SECONDS)
                 .readTimeout(15, TimeUnit.SECONDS)
-                .addNetworkInterceptor(new StethoInterceptor())
                 .build();
     }
 
